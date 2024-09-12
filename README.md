@@ -1,2 +1,2 @@
 # sql_models
-Aqui irei mostrar meus estudos e trabalhos pessoais sobre SQL.
+Aqui irei mostrar meus estudos e trabalhos pessoais sobre T-SQL.
