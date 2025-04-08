@@ -241,7 +241,6 @@ where	cNome = 'Germane Delgado'
 select	* from tTIPEndereco
 
 -- cursores
-
 declare	@iidcliente int,
 		@cnome varchar(50),
 		@mcredito smallmoney
