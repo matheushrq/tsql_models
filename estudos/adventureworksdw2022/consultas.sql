@@ -227,3 +227,45 @@ where	FirstName like '[AD]%'
 select	*
 from	DimCurrency
 where	CurrencyName like '[^a]%'
+
+-- row_number()
+select	id_product = ROW_NUMBER() over(partition by EnglishProductName order by ProductKey desc),
+		ProductKey,
+		EnglishProductName,
+		EnglishDescription,
+		round(ListPrice, 2) listprice,
+		Color,
+		convert(varchar(10), StartDate, 103) startdate,
+		isnull(convert(varchar(20), Weight), 'NA') [weight]
+		into #tabela_teste
+from	DimProduct
+where	EnglishDescription is not null
+and		ListPrice is not null
+
+--sp_consulta 'ProductKey'
+
+select	* from #tabela_teste
+
+select	tb.ProductKey,
+		tb.EnglishProductName,
+		tb.listprice, 
+		tb.Color,
+		tb.startdate,
+		dp.ProductKey,
+		dp.EnglishProductName,
+		dp.listprice, 
+		dp.Color,
+		dp.startdate
+from	#tabela_teste tb
+join	DimProduct dp
+on		dp.ProductKey = tb.ProductKey
+
+begin tran
+go
+
+update	dp
+set		startDate = tb.startdate
+from	DimProduct dp
+join	#tabela_teste tb
+on		tb.ProductKey = dp.ProductKey
+and		tb.id_product = (select top 1 tb.id_product from #tabela_teste tb order by id_product desc)
