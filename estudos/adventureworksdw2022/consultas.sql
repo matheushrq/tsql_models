@@ -269,3 +269,57 @@ from	DimProduct dp
 join	#tabela_teste tb
 on		tb.ProductKey = dp.ProductKey
 and		tb.id_product = (select top 1 tb.id_product from #tabela_teste tb order by id_product desc)
+
+select	convert(varchar(10), StartDate, 103),
+		convert(varchar(10), dateadd(DAY, -1, StartDate), 103),
+		*
+from	DimProduct
+
+select	convert(varchar(10), getdate(), 103) -- data de hoje
+select	DATEDIFF(day, '2025-05-02', getdate()) dias -- diferença de dias
+select	DATEDIFF(MONTH, '2011-03-02', getdate()) meses -- diferença de meses
+select	DATEDIFF(YEAR, '1977', getdate()) anos -- diferença de anos
+
+select	year(GETDATE())
+
+--Adicionando 90 dias
+SELECT getdate() agora,
+	   Dateadd (day, 90, Getdate())
+
+--Adicionando 2 meses
+SELECT getdate() agora,
+	   Dateadd (month, 2, Getdate())
+
+--Adicionando 3 anos
+SELECT getdate() agora,
+	   Dateadd (year, 3, Getdate())
+
+select	top 10
+		ProductKey,
+		EnglishProductName,
+		convert(varchar(10), StartDate, 103) startdate,
+		convert(varchar(10), EndDate, 103) enddate,
+		DATEDIFF(day, EndDate, StartDate) diferenca_dias
+from	DimProduct
+where	EndDate is not null
+
+--FUNCAO DE DATA E HORA PARTES
+
+--RETORNA O DIA/Mes/Ano
+SELECT Getdate() data_hora,
+	   Datename (day, Getdate()) DIA_N,
+	   datename (month, Getdate()) MES_N,
+	   datename (year, Getdate()) ANO_N
+
+--RETORNA O DIA/Mes/Ano
+SELECT Datepart (day, Getdate()) DIA_P,
+	   Datepart (month, Getdate()) MES_P,
+	   Datepart (year, Getdate()) ANO_P
+
+--RETORNA O DIA/Mes/Ano
+SELECT Day (Getdate()) DIA,
+	   Month (Getdate()) MES,
+	   year (Getdate()) ANO
+
+--RETONAR DATA HORA COM 7 ARGUMENTOS
+SELECT DATETIMEFROMPARTS (2017,11,30,3,45,59,1) HORA
