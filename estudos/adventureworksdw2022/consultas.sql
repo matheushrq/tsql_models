@@ -323,3 +323,11 @@ SELECT Day (Getdate()) DIA,
 
 --RETONAR DATA HORA COM 7 ARGUMENTOS
 SELECT DATETIMEFROMPARTS (2017,11,30,3,45,59,1) HORA
+
+--FUNCOES DATA E HORA DO SISTEMA
+SELECT Sysdatetime () exSysdatetime
+SELECT Sysdatetimeoffset () exSysdatetimeoffset
+SELECT Sysutcdatetime () exSysutcdatetime
+SELECT CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
+SELECT Getdate () exGetdate
+SELECT Getutcdate () exGetutcdate
