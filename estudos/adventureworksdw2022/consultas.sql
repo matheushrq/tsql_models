@@ -331,3 +331,5 @@ SELECT Sysutcdatetime () exSysutcdatetime
 SELECT CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
 SELECT Getdate () exGetdate
 SELECT Getutcdate () exGetutcdate
+
+-- cross apply
