@@ -286,6 +286,9 @@ select	year(GETDATE())
 SELECT getdate() agora,
 	   Dateadd (day, 90, Getdate())
 
+SELECT getdate() agora,
+	   Dateadd (day, -1, Getdate())
+
 --Adicionando 2 meses
 SELECT getdate() agora,
 	   Dateadd (month, 2, Getdate())
@@ -331,5 +334,9 @@ SELECT Sysutcdatetime () exSysutcdatetime
 SELECT CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
 SELECT Getdate () exGetdate
 SELECT Getutcdate () exGetutcdate
+
+-- string_split
+select	*
+from	string_split('1,2,3,4',',')
 
 -- cross apply
