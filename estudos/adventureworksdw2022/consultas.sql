@@ -340,3 +340,52 @@ select	*
 from	string_split('1,2,3,4',',')
 
 -- cross apply
+
+-- teste com variáveis
+declare
+	@firstname			varchar(300),
+	@middlename			varchar(300),
+	@lastname			varchar(300),
+	@title				varchar(300),
+	@departmentname		varchar(300),
+	@birthdate			date,
+	@productkey			int,
+	@alternatekey		varchar(50),
+	@englishname		varchar(300),
+	@listprice			money,
+	@orderdatekey		int,
+	@salesordernumber	tinyint,
+	@orderquantity		smallint
+
+select distinct
+	@firstname			= de.FirstName,
+	@middlename			= de.MiddleName,
+	@lastname			= de.LastName,
+	@title				= de.Title,
+	@departmentname		= de.DepartmentName,
+	@birthdate			= de.BirthDate,
+	@productkey			= dp.ProductKey,
+	@alternatekey		= dp.ProductAlternateKey,
+	@englishname		= dp.EnglishProductName,
+	@listprice			= dp.ListPrice,
+	@orderdatekey		= frs.OrderDateKey,
+	@salesordernumber	= frs.SalesOrderNumber,
+	@orderquantity		= frs.OrderQuantity
+from	DimEmployee de
+join	DimSalesTerritory dst
+on		dst.SalesTerritoryKey = de.SalesTerritoryKey
+join	FactResellerSales frs
+on		frs.EmployeeKey = de.EmployeeKey
+join	DimProduct dp
+on		dp.ProductKey = frs.ProductKey
+
+--select	*
+--from	#v_teste
+
+/*
+	select	*
+	from	FactResellerSales
+
+	select	*
+	from	DimProduct
+*/
