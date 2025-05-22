@@ -389,3 +389,41 @@ on		dp.ProductKey = frs.ProductKey
 	select	*
 	from	DimProduct
 */
+
+select	EmployeeKey,
+		FirstName,
+		LastName,
+		MiddleName,
+		HireDate,
+		BirthDate,
+		MaritalStatus,
+		Gender,
+		BaseRate,
+		StartDate
+		into #tmp_teste
+from	DimEmployee
+where	MiddleName is not null
+
+select	HireDate
+from	#tmp_teste
+group	by HireDate
+having	year(HireDate) = 2007
+
+select	convert(varchar(10), t.HireDate, 103) HireDate,
+		CASE
+			WHEN YEAR(t.HireDate) = 2007 THEN 
+				CONVERT(VARCHAR(10), DATEADD(DAY, 1, DATEADD(MONTH, 1, t.HireDate)), 103)
+			ELSE 
+				CONVERT(VARCHAR(10), t.HireDate, 103)
+		END AS data_alterada
+from	#tmp_teste t
+group	by t.HireDate
+
+/*
+select	case
+			when day(t.HireDate) >= 20 and MONTH(t.HireDate) in (7,8,10)
+			then convert(smalldatetime, format(DATEADD(MONTH, 1, t.HireDate), 'yyyyMM' + day(GETDATE())))
+			else '1900-01-01'
+		end
+from	#tmp_teste t
+*/
