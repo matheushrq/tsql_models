@@ -65,3 +65,16 @@ select	case
 			--then convert(datetime2, convert(varchar(8), dateadd(month, 0, @data), 121) + '1')
 		else @data
 		end
+
+
+
+declare @x datetime = '20250305'
+
+select	data_teste = case
+						when day(@x) > 28 and month(@x) = 2
+							then convert(datetime, format(dateadd(month, 0, @x), 'yyyyMM' + '28'))
+						when day(@x) = 30 and month(@x) in (4,6,9,11)
+							then convert(datetime, format(dateadd(month, 0, @x), 'yyyyMM' + '30'))
+						else convert(datetime, format(dateadd(month, 1, @x), 'yyyyMM' + right('0' + convert(varchar(10), day(@x)), 2)))
+						--convert(datetime, convert(varchar(10), dateadd(month, 1, @x) + day(@x)))
+					 end
