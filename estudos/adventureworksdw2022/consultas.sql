@@ -427,3 +427,40 @@ select	case
 		end
 from	#tmp_teste t
 */
+
+if OBJECT_ID('tempdb..#tmp_teste','U') is not null
+begin
+	drop table #tmp_teste
+end
+
+select
+		dc.CustomerKey,
+		dc.FirstName,
+		dc.MiddleName,
+		dc.LastName,
+		dc.BirthDate,
+		fis.SalesOrderNumber,
+		fis.OrderDate,
+		dc.Gender,
+		dp.ProductKey,
+		dp.EnglishProductName,
+		dp.DealerPrice,
+		dp.StandardCost,
+		dc.EmailAddress,
+		dc.YearlyIncome,
+		dc.EnglishEducation,
+		dc.AddressLine1
+		into #tmp_teste
+from	DimCustomer dc
+join	FactInternetSales fis
+on		fis.CustomerKey = dc.CustomerKey
+join	DimProduct dp
+on		dp.ProductKey = fis.ProductKey
+where	dc.MiddleName is not null
+
+select	*
+from	#tmp_teste
+
+select	dealerPrice,
+		dealerPrice_corrigido = format(DealerPrice, '0.00', 'pt-BR')
+from	#tmp_teste
