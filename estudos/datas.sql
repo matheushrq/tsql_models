@@ -78,3 +78,18 @@ select	data_teste = case
 						else convert(datetime, format(dateadd(month, 1, @x), 'yyyyMM' + right('0' + convert(varchar(10), day(@x)), 2)))
 						--convert(datetime, convert(varchar(10), dateadd(month, 1, @x) + day(@x)))
 					 end
+
+/* -- fixando uma data personalizada -- */
+declare	@ano		int = 2025,
+		@mes		int = 11,
+		@dia		int = 18,
+		@data_final	datetime = '20240507'
+
+select	data_final		= cast(@data_final as smalldatetime),
+		data_atualizada = case 
+							  when day(@data_final) > 28 and month(@data_final) = 2
+								 then convert(smalldatetime, format(dateadd(month, 0, @data_final), 'yyyyMM' + '28'))
+							  when day(@data_final) > 30 and month(@data_final) in (4,6,9,11)
+								 then convert(smalldatetime, format(dateadd(month, 0, @data_final), 'yyyyMM' + '30'))
+							  else convert(smalldatetime, convert(varchar(10), @ano) + convert(varchar(10), @mes) + right('0' + convert(varchar(10), @dia), 2))
+						  end
