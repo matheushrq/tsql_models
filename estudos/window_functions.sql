@@ -38,3 +38,22 @@ join	Customers c
 on		c.CustomerID = o.CustomerID
 join	Employees e
 on		e.EmployeeID = o.EmployeeID
+
+use ebook
+go
+
+select	tcc.cNome,
+		convert(varchar(10), tcc.dAniversario, 103) dAniversario,
+		ult.iIDPedido,
+		convert(varchar(10), tmp.dPedido, 103) dPedido,
+		round(tcc.mCredito, 2) mCredito,
+		maior_credito = ROW_NUMBER() over(order by tcc.mCredito desc)
+from	tCADCliente tcc
+join	tMOVPedido tmp
+on		tmp.iIDCliente = tcc.iIDCliente
+cross	apply (select max(p.iIDPedido) iIDPedido
+			   from tMOVPedido p
+			   where p.iIDCliente = tcc.iIDCliente) ult
+where	year(tcc.dAniversario) < 1975
+and		year(tmp.dPedido) = 2008
+order	by tcc.mCredito desc
