@@ -246,7 +246,10 @@ ORDER	BY od.SalesOrderID
 	- Não é possível prever a ordem em que as linhas vão retornar sem uma cláusula ORDER BY. Não há como saber se as linhas correspondentes ou as não correspondentes vão ser retornadas primeiro.
 */
 
-SELECT	p.ProductID, m.Name AS Model, p.Name AS Product
+SELECT	p.ProductID, 
+		coalesce(m.Name, p.name) AS Model_coalesce, -- usando coalesce
+		isnull(m.Name, p.name) AS Model_isnull, -- usando isnull
+		p.Name AS Product
 FROM	Production.Product AS p
 left	outer join Production.ProductModel AS m
 ON		p.ProductModelID = m.ProductModelID;
@@ -277,6 +280,27 @@ DECLARE @numrows INT = 3, @catid INT = 2;
 --Use variables to pass the parameters to the procedure.
 EXEC Production.ProdsByCategory @numrows = @numrows, @catid = @catid;
 GO
+
+select	
+		nome_completo = (p.FirstName + ' ' + isnull(MiddleName, '') + ' ' + p.LastName),
+		e.JobTitle,
+		convert(varchar(10), e.BirthDate, 103) BirthDate,
+		e.Gender,
+		data_contratacao = convert(varchar(10), e.HireDate, 103),
+		estado_civil = case 
+					      when e.MaritalStatus = 'S'
+							then 'Solteiro'
+						  when e.MaritalStatus = 'M'
+							then 'Casado'
+					      else 'Outros'
+						end
+from	HumanResources.Employee e
+join	Person.BusinessEntity be
+on		be.BusinessEntityID = e.BusinessEntityID
+join	Person.Person p
+on		p.BusinessEntityID = be.BusinessEntityID
+
+sp_consulta 'businessentityid'
 
 ---WILDCARDS
 use AdventureWorks2022
