@@ -74,8 +74,12 @@ select	e.EmployeeID,
 		e.City,
 		aux.OrderID
 from	Employees e
-cross	apply (select max(o.OrderID) orderID from orders o 
+cross	apply (select max(o.OrderID) OrderID from orders o 
 			   where o.EmployeeID = e.EmployeeID) aux
+
+--cross	apply (select top 1 * from orders o
+--			   where o.EmployeeID = e.EmployeeID
+--			   order by o.OrderID desc) aux
 
 -- outer apply
 select	od.OrderID,
@@ -86,3 +90,9 @@ select	od.OrderID,
 from	[Order Details] od
 outer	apply (select * from orders o
 			   where o.OrderID = od.OrderID) aux
+
+use AdventureWorks2022
+go
+
+select	*
+from	production.product
