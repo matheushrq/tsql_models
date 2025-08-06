@@ -39,7 +39,6 @@ set		EndDate = tmp.EndDate
 from	DimProduct dp
 join	#tmp_end_date_null tmp
 on		dp.ProductKey = tmp.ProductKey
-where	dp.EndDate <> tmp.EndDate
 
 -- alterado
 select	tmp.*,
