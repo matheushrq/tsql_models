@@ -464,3 +464,47 @@ from	#tmp_teste
 select	dealerPrice,
 		dealerPrice_corrigido = format(DealerPrice, '0.00', 'pt-BR')
 from	#tmp_teste
+
+/*************************************************************/
+
+if OBJECT_ID ('tempdb..#tmp_tabela', 'U') is not null
+begin
+	drop table #tmp_tabela
+end
+
+select	distinct
+		dp.ProductKey,
+		dpc.ProductCategoryKey,
+		dp.EnglishProductName,
+		dpsc.EnglishProductSubcategoryName,
+		dpc.EnglishProductCategoryName,
+		dp.EnglishDescription,
+		dp.SpanishProductName,
+		dpsc.SpanishProductSubcategoryName,
+		dpc.SpanishProductCategoryName,
+		round(dp.ListPrice, 2) ListPrice,
+		dp.Size,
+		convert(date, dp.StartDate) StartDate,
+		convert(date, dp.EndDate) EndDate
+		into #tmp_tabela
+from	DimProduct dp
+join	DimProductSubcategory dpsc
+on		dpsc.ProductSubcategoryKey = dp.ProductSubcategoryKey
+join	DimProductCategory dpc
+on		dpc.ProductCategoryKey = dpsc.ProductCategoryKey
+where	dp.EndDate < dp.StartDate
+
+select	* from #tmp_tabela
+
+-- alterando para que o ano da data fim seja sempre um ano a frente da data inicio, sem alterar o mês e o dia da data fim
+update	tmp
+set		EndDate = TRY_CAST( -- try_cast para evitar erros com ano bissexto
+						DATEFROMPARTS(
+							year(tmp.StartDate) + 1,
+							month(tmp.EndDate),
+							day(tmp.EndDate)
+						) as datetime
+					)
+from	#tmp_tabela tmp
+
+select	* from #tmp_tabela
