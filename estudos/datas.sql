@@ -1,3 +1,5 @@
+SELECT 	Getdate() data_hora -- retorna a data e hora atual do sistema
+
 --FUNCAO DE DATA E HORA PARTES
 
 --RETORNA O DIA/Mes/Ano
