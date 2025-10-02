@@ -1,15 +1,13 @@
 /* estruturas de repetição */
 
--- while
-declare @contador int = 0;
+declare @cont int = 0
 
-while @contador < 20
-BEGIN
-    select  ProductKey,
-            EnglishProductName,
-            Color,
-            StandardCost
+while @cont < 10
+begin
+    SELECT  ProductKey,
+            EnglishProductName
     FROM    DimProduct
-    where   ProductKey = @contador;
-    set     @contador = @contador + 1;
+    WHERE   ProductKey = @cont
+
+    SET @cont = @cont + 1
 END
