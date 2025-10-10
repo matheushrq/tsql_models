@@ -4,30 +4,30 @@ SELECT 	Getdate() data_hora -- retorna a data e hora atual do sistema
 
 --RETORNA O DIA/Mes/Ano
 SELECT	Getdate() data_hora,
-		Datename (day, Getdate()) DIA_N,
-		datename (month, Getdate()) MES_N,
-		datename (year, Getdate()) ANO_N
+		Datenameï¿½(day,ï¿½Getdate())ï¿½DIA_N,
+		datenameï¿½(month,ï¿½Getdate())ï¿½MES_N,
+		datenameï¿½(year,ï¿½Getdate())ï¿½ANO_N
 
 --RETORNA O DIA/Mes/Ano
-SELECT 	Datepart (day, Getdate()) DIA_P,
-		Datepart (month, Getdate()) MES_P,
-		Datepart (year, Getdate()) ANO_P
+SELECTï¿½ Datepart(day,Getdate())DIA_P,
+		Datepartï¿½(month,ï¿½Getdate()) MES_P,
+		Datepartï¿½(year,ï¿½Getdate())ï¿½ANO_P
 
 --RETORNA O DIA/Mes/Ano
-SELECT 	Day (Getdate()) DIA,
+SELECTï¿½	Day (Getdate())ï¿½DIA,
 		Month (Getdate()) MES,
 		year (Getdate()) ANO
 
 --RETONAR DATA HORA COM 7 ARGUMENTOS
-SELECT 	DATETIMEFROMPARTS (2017,11,30,3,45,59,1) HORA
+SELECTï¿½	DATETIMEFROMPARTS (2017,11,30,3,45,59,1) HORA
 
 --FUNCOES DATA E HORA DO SISTEMA
-SELECT 	Sysdatetime () exSysdatetime
-SELECT 	Sysdatetimeoffset () exSysdatetimeoffset
-SELECT 	Sysutcdatetime () exSysutcdatetime
-SELECT 	CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
-SELECT 	Getdate () exGetdate
-SELECT 	Getutcdate () exGetutcdate
+SELECTï¿½	Sysdatetimeï¿½()ï¿½exSysdatetime
+SELECTï¿½	Sysdatetimeoffsetï¿½()ï¿½exSysdatetimeoffset
+SELECTï¿½	Sysutcdatetimeï¿½()ï¿½exSysutcdatetime
+SELECTï¿½	CURRENT_TIMESTAMPï¿½exCURRENT_TIMESTAMP
+SELECTï¿½	Getdateï¿½()ï¿½exGetdate
+SELECTï¿½	Getutcdateï¿½()ï¿½exGetutcdate
 
 use basebackup
 go
@@ -55,7 +55,7 @@ declare @data_exp datetime = '20251231'
 select	convert(smalldatetime, FORMAT(DATEADD(month, 7, @data_exp), 'yyyyMM' + '21')) -- altera a data para 21/07/2026
 select	convert(smalldatetime, convert(varchar(8), dateadd(month, 1, @data_exp), 121) + '30') -- altera a data para 30/01/2026
 
-select	convert(smalldatetime, FORMAT(DATEADD(month, 0, GETDATE()), 'yyyyMM' + '10')) -- não altera o mês e muda o dia para 10
+select	convert(smalldatetime, FORMAT(DATEADD(month, 0, GETDATE()), 'yyyyMM' + '10')) -- nï¿½o altera o mï¿½s e muda o dia para 10
 select	convert(smalldatetime, convert(varchar(8), dateadd(month, 1, GETDATE()), 121) + '30') -- altera a data para 30/06/2026
 
 
@@ -95,3 +95,27 @@ select	data_final		= cast(@data_final as smalldatetime),
 								 then convert(smalldatetime, format(dateadd(month, 0, @data_final), 'yyyyMM' + '30'))
 							  else convert(smalldatetime, convert(varchar(10), @ano) + convert(varchar(10), @mes) + right('0' + convert(varchar(10), @dia), 2))
 						  end
+
+-- utilizando a funÃ§Ã£o DATEFROMPARTS
+SELECT DATEFROMPARTS(2024, 12, 25) AS Christmas;
+
+-- Adiciona uma coluna de aniversÃ¡rio baseado em ano atual
+declare @Pessoas table (Nome nvarchar(100), Nascimento date);
+insert INTO @Pessoas (Nome, Nascimento) VALUES
+	('JoÃ£o Silva', '1985-06-15'),
+	('Maria Oliveira', '1990-09-30'),
+	('Carlos Souza', '1978-12-05');
+
+-- antes
+select 	* FROM @Pessoas;
+
+-- alterando a data de nascimento para um ano antes do cadastrado, mantendo o dia e mÃªs
+UPDATE	p
+SET		Nascimento = DATEFROMPARTS(
+						YEAR(Nascimento) - 1,
+						MONTH(Nascimento),
+						DAY(Nascimento))
+FROM	@Pessoas p
+
+-- depois
+select 	* FROM @Pessoas;
