@@ -123,7 +123,7 @@ truncate table dimReseller
 
 /* -- VIEWS -- */
 select	* from DimCustomer
-
+/*
 create	view vw_DecemberCustomers
 as
 select	distinct dc.CustomerKey, dc.FirstName, dc.LastName, month(dc.BirthDate) BirthYear, dc.Gender, dg.City, dg.StateProvinceName from DimCustomer dc
@@ -133,6 +133,7 @@ where	month(dc.BirthDate) = 12
 
 -- chamando a view
 select	* from vw_DecemberCustomers
+*/
 
 select	* from DimEmployee
 
@@ -315,25 +316,25 @@ SELECT Getdate() data_hora,
 	   datename (year, Getdate()) ANO_N
 
 --RETORNA O DIA/Mes/Ano
-SELECT Datepart (day, Getdate()) DIA_P,
-	   Datepart (month, Getdate()) MES_P,
-	   Datepart (year, Getdate()) ANO_P
+SELECT Datepart(day, Getdate()) DIA_P,
+	   Datepart(month, Getdate()) MES_P,
+	   Datepart(year, Getdate()) ANO_P
 
 --RETORNA O DIA/Mes/Ano
-SELECT Day (Getdate()) DIA,
+SELECT Day (Getdate()) DIA,
 	   Month (Getdate()) MES,
 	   year (Getdate()) ANO
 
 --RETONAR DATA HORA COM 7 ARGUMENTOS
-SELECT DATETIMEFROMPARTS (2017,11,30,3,45,59,1) HORA
+-- SELECT DATEFROMPARTS (2017,11,30,3,45,59,1) HORA
 
 --FUNCOES DATA E HORA DO SISTEMA
-SELECT Sysdatetime () exSysdatetime
-SELECT Sysdatetimeoffset () exSysdatetimeoffset
-SELECT Sysutcdatetime () exSysutcdatetime
-SELECT CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
-SELECT Getdate () exGetdate
-SELECT Getutcdate () exGetutcdate
+SELECT Sysdatetime () exSysdatetime
+SELECT Sysdatetimeoffset () exSysdatetimeoffset
+SELECT Sysutcdatetime () exSysutcdatetime
+SELECT CURRENT_TIMESTAMP exCURRENT_TIMESTAMP
+SELECT Getdate () exGetdate
+SELECT Getutcdate () exGetutcdate
 
 -- string_split
 select	*
