@@ -21,7 +21,7 @@ exec p_pfa_financeamount 0, 366.1
 
 sp_helptext 'p_pfa_financeamount'
 
-/* -- Declarando vari·veis -- */
+/* -- Declarando vari√°veis -- */
 declare @yeardate smallint = 1970
 
 select	distinct dc.CustomerKey, dc.FirstName, dc.LastName, year(dc.BirthDate) BirthYear, dc.Gender, dg.City, dg.StateProvinceName from DimCustomer dc
@@ -30,16 +30,16 @@ on		dg.GeographyKey = dc.GeographyKey
 where	year(dc.BirthDate) = @yeardate
 order	by dc.FirstName asc
 
-/* -- Armazenando consultas em vari·vel -- */
+/* -- Armazenando consultas em vari√°vel -- */
 
-set nocount on -- n„o mostra a quantidade de linhas alteradas/executadas
+set nocount on -- n√£o mostra a quantidade de linhas alteradas/executadas
 declare @departmentgroup int
 set @departmentgroup = (select top 1 ddg.DepartmentGroupKey from DimDepartmentGroup ddg where ddg.ParentDepartmentGroupKey is not null)
 
 select @departmentgroup
-print 'O cÛdigo de grupo de departamento È: ' + cast(@departmentgroup as varchar(10))
+print 'O c√≥digo de grupo de departamento √©: ' + cast(@departmentgroup as varchar(10))
 
-/* -- Acumulando valores em vari·veis -- */
+/* -- Acumulando valores em vari√°veis -- */
 declare
 	@productname nvarchar(50),
 	@listprice decimal(10,2),
@@ -63,7 +63,7 @@ where	ListPrice is not null
 create procedure sp_produto_preco
 (
 	@precounitario	smallint,
-	@produto_qt		int output -- output: vari·vel de saÌda
+	@produto_qt		int output -- output: vari√°vel de sa√≠da
 )
 as
 begin
@@ -73,7 +73,7 @@ begin
 	from	DimProduct
 	where	ListPrice = @precounitario
 
-	select	@produto_qt = @@ROWCOUNT -- rowcount È uma vari·vel que conta a quantidade de linhas afetadas pelo select
+	select	@produto_qt = @@ROWCOUNT -- rowcount √© uma vari√°vel que conta a quantidade de linhas afetadas pelo select
 end
 
 -- chamando a procedure
@@ -135,7 +135,7 @@ end
 
 exec query_top_x 'DimCustomer', 100, 'FirstName'
 
-/* -- EVITAR SQL INJECTION (manipulaÁ„o do banco de dados por meio de ataque hacker) -- */
+/* -- EVITAR SQL INJECTION (manipula√ß√£o do banco de dados por meio de ataque hacker) -- */
 
 -- SQL Injection
 
@@ -167,7 +167,7 @@ as
 begin
 	declare @sql nvarchar(128)
 	set @sql = N'select * from '
-				+ quotename(@schema) -- quotename: adiciona delimitadores a uma cadeia de entrada para tornar essa cadeia um identificador delimitado v·lido do SQL Server.
+				+ quotename(@schema) -- quotename: adiciona delimitadores a uma cadeia de entrada para tornar essa cadeia um identificador delimitado v√°lido do SQL Server.
 				+ '.'
 				+ QUOTENAME(@tabela)
 	exec sp_executesql @sql
@@ -188,7 +188,7 @@ begin
 	end try
 	begin catch
 		select 
-			error_number() ErrorNumber, -- n˙mero do erro
+			error_number() ErrorNumber, -- n√∫mero do erro
 			error_severity() ErrorSeverity, -- severidade do erro
 			error_state() ErrorState, --  estado do erro
 			error_procedure() ErrorProcedure, -- procedure que apresentou o erro
