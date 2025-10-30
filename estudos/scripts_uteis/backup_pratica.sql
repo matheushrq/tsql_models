@@ -1,4 +1,4 @@
-/* -- Prática com backup e restore -- */
+/* -- PrÃ¡tica com backup e restore -- */
 
 -- criando base de dados, tabela e inserindo registros
 
@@ -16,7 +16,7 @@ create table dbo.registros(
 go
 
 insert into dbo.registros values ('teste 1')
-go 300
+--go 300
 
 select count(*) from dbo.registros
 
@@ -51,7 +51,7 @@ DROP DATABASE basebackup
 -- restaurando a base
 RESTORE DATABASE basebackup
 FROM DISK = 'D:\SQLServer\basebackup\backup\basebackup_1_FULL.BAK'
-WITH STATS, NORECOVERY -- norecovery: usuários ainda não tem acesso
+WITH STATS, NORECOVERY -- norecovery: usuï¿½rios ainda nï¿½o tem acesso
 
 --COLOCANDO O BANCO ONLINE
 RESTORE DATABASE basebackup WITH RECOVERY
@@ -63,7 +63,7 @@ select count(*) from dbo.registros
 
 -- inserindo novos registros
 insert into dbo.registros values ('teste 2')
-go 300
+--go 300
 
 select count(*) from dbo.registros
 
@@ -71,7 +71,7 @@ select count(*) from dbo.registros
 BACKUP DATABASE basebackup TO DISK = 'D:\SQLServer\basebackup\backup\basebackup_BK-DFF1.DIF' WITH DIFFERENTIAL
 
 insert into dbo.registros values ('teste 3')
-go 300
+--go 300
 
 select	nome, count(*) from dbo.registros
 group	by nome
@@ -86,9 +86,9 @@ DROP DATABASE basebackup
 
 /* 
 	- Restaurando o banco em ordem dos backups 
-	1º - Backup Full
-	2º - Backup Differential
-	3º - Backup Log
+	1ï¿½ - Backup Full
+	2ï¿½ - Backup Differential
+	3ï¿½ - Backup Log
 */
 
 -- restaurando backup full
