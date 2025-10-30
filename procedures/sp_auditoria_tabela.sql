@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE sp_auditoria_clientes
+CREATE OR ALTER PROCEDURE sp_auditoria_tabela
     @NomeTabela     NVARCHAR(100),
     @Operacao       NVARCHAR(10),
     @Usuario        NVARCHAR(100),
