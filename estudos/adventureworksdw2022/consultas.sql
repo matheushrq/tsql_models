@@ -509,3 +509,10 @@ set		EndDate = TRY_CAST( -- try_cast para evitar erros com ano bissexto
 from	#tmp_tabela tmp
 
 select	* from #tmp_tabela
+
+exec sp_auditoria_clientes
+	@NomeTabela = 'DimProduct',
+	@Operacao = 'UPDATE',
+	@Usuario = 'mcoelho',
+	@DadosAntigos = 'Old Data Example',
+	@DadosNovos = 'New Data Example'
