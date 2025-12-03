@@ -1,3 +1,5 @@
+-- teste com o ssms 22
+
 select * from person.Person
 where LastName = 'Miller' and FirstName = 'Anna'
 
