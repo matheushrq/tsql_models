@@ -119,3 +119,21 @@ FROM	@Pessoas p
 
 -- depois
 select 	* FROM @Pessoas;
+
+-- case e datediff
+use northwind
+select	FirstName,
+		LastName,
+		TitleOfCourtesy,
+		convert(varchar, BirthDate, 103) birthdate,
+		datediff(year, birthdate, getdate()) idade,
+		case
+			when datediff(year, birthdate, getdate()) > 60
+				then 'Pessoa idosa'
+			else 'Pessoa adulta'
+		end as classificacao,
+		Address,
+		city,
+		isnull(Region, 'N/A') region,
+		Country
+from	Employees
