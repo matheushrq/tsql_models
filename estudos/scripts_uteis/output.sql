@@ -1,4 +1,4 @@
--- Cláusula OUTPUT
+-- ClÃ¡usula OUTPUT
 
 use basebackup
 go
@@ -41,7 +41,7 @@ insert	produto_backup(
 )
 output	getdate(), SUSER_SNAME(), HOST_NAME(), 'insert', inserted.id_produto, inserted.valor_unitario, null, inserted.ativo, null
 into	produto_log
-values	('Disco SSD 1 TB', 'Informática', 269.99)
+values	('Disco SSD 1 TB', 'Informï¿½tica', 269.99)
 
 insert	produto_backup(
 		descricao,
@@ -50,7 +50,7 @@ insert	produto_backup(
 )
 output	getdate(), SUSER_SNAME(), HOST_NAME(), 'insert', inserted.id_produto, inserted.valor_unitario, null, inserted.ativo, null
 into	produto_log
-values	('Interface de som', 'Som e áudio', 309.99)
+values	('Interface de som', 'Som e ï¿½udio', 309.99)
 
 insert	produto_backup(
 		descricao,
