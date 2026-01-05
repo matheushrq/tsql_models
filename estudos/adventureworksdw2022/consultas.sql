@@ -516,3 +516,21 @@ exec sp_auditoria_clientes
 	@Usuario = 'mcoelho',
 	@DadosAntigos = 'Old Data Example',
 	@DadosNovos = 'New Data Example'
+
+select	distinct
+		--AccountKey,
+		--AccountDescription,
+		--isnull(AccountType, 'N/A') AccountType,
+		--ValueType
+		*
+FROM	DimAccount
+
+if not exists (select top 1 1 from DimAccount where AccountDescription = 'EPI')
+begin
+	insert into DimAccount
+	(parentaccountkey, accountcodealternatekey, parentaccountcodealternatekey, accountdescription, accounttype, operator, custommembers, valuetype, custommemberoptions)
+	values
+	(28, 9850, 1220, 'EPI', 'Assets', '+', null, 'Current', null)
+end
+
+select * from DimAccount where AccountDescription = 'EPI'
