@@ -88,14 +88,28 @@ insert into dbo.Employees(
 	birthdate
 )
 values(
-	'Tomaz',
-	'Duda',
-	'Pediatra',
-	'Dra.',
-	'2002/08/16'
+	'Silva',
+	'João',
+	'Analista',
+	'Sr.',
+	'1985-10-15'
 )
 
 /* -- Validando a alteração -- */
 
 select	* from Employees
 select	* from employee_auditoria
+
+-- antes
+select	* from Employees
+where	employeeid = 10
+
+/* -- Atualizando a data de contratação dos funcionários para o ano atual, mantendo dia e mês -- */
+begin tran
+update 	dbo.Employees
+SET		HireDate = getdate()
+where	employeeid = 10
+
+-- depois
+select	* from Employees
+where	employeeid = 10

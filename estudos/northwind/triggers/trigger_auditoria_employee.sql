@@ -1,19 +1,27 @@
 use northwind
 go
 
-create table dbo.employee_auditoria
-(
-	id int identity primary key,
-	employeeid int not null,
-	lastname nvarchar(40),
-	firstname nvarchar(20),
-	title nvarchar(60),
-	titleofcourtesy nvarchar(50),
-	birthdate date,
-	updatedat date not null,
-	operation char(3) not null,
-	check(operation = 'INS' or operation = 'DEL')
+if not exists (
+	select	top 1 1
+	from	sys.objects
+	where	type = 'TR'
+	and		name = 'trg_insert_employee'
 )
+BEGIN
+	create table dbo.employee_auditoria
+	(
+		id int identity primary key,
+		employeeid int not null,
+		lastname nvarchar(40),
+		firstname nvarchar(20),
+		title nvarchar(60),
+		titleofcourtesy nvarchar(50),
+		birthdate date,
+		updatedat date not null,
+		operation char(3) not null,
+		check(operation = 'INS' or operation = 'DEL')
+	)
+END
 
 create or alter trigger dbo.trg_insert_employee
 on dbo.employees
