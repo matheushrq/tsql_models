@@ -70,11 +70,49 @@ order	by fs.TotalCost desc
 select	distinct
 		dp.ProductName,
 		fi.UnitCost,
-		dp.[Size],
+		isnull(dp.[Size], 'N/A') [Size],
 		dp.BrandName
 from	FactInventory fi
 join	DimProduct dp
 on		dp.ProductKey = fi.ProductKey
+
+select	dp.BrandName,
+		count(*) qtd
+from	FactInventory fi
+join	DimProduct dp
+on		dp.ProductKey = fi.ProductKey
+group	by dp.BrandName
+order	by qtd desc
+
+-- CTE
+
+with adventure_works as (
+	select	distinct
+			dp.ProductName product_name,
+			fi.UnitCost cost,
+			isnull(dp.[Size], 'N/A') medidas,
+			dp.BrandName brand_name
+	from	FactInventory fi
+	join	DimProduct dp
+	on		dp.ProductKey = fi.ProductKey
+	where	dp.BrandName = 'Adventure Works'
+)
+
+select	product_name,
+		cost,
+		case
+			when cost >= 300
+				then 'Acima do custo'
+			when cost < 300 and cost >= 100
+				then 'Dentro do custo'
+			when cost < 100
+				then 'Abaixo do custo'
+			else null
+		end custo,
+		medidas,
+		brand_name
+from	adventure_works
+where	medidas not in ('N/A')
 
 /*
 select	*
