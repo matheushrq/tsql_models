@@ -57,3 +57,13 @@ cross	apply (select max(p.iIDPedido) iIDPedido
 where	year(tcc.dAniversario) < 1975
 and		year(tmp.dPedido) = 2008
 order	by tcc.mCredito desc
+
+use stackoverflow2010
+
+select	distinct top 5
+		id_seq = row_number() over(partition by u.Reputation order by u.DisplayName), -- id sequencial ordenado por nome e particionado por reputação
+		u.DisplayName,
+		u.Reputation,
+		sum(u.reputation) over (order by u.reputation) next_reputation -- soma acumulada da reputação ordenada por reputação
+from	Users u
+where	u.Reputation >= 1000
