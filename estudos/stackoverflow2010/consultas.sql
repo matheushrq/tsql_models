@@ -6,12 +6,12 @@ with teste as (
 			isnull(u.Age, datediff(year, CreationDate, getdate())) age,
 			convert(varchar(10), u.CreationDate, 103) CreationDate,
 			upper(left(u.DisplayName, 1)) + lower(substring(u.DisplayName, 2, len(u.DisplayName))) displayName, -- primeira letra maiúscula e o restante minúsculo
-			u.DownVotes,
 			convert(varchar(10), u.LastAccessDate, 103) LastAccessDate,
+			u.Views,
 			replace(isnull(u.Location, 'N/A'), '', 'N/A') Location,
 			u.Reputation,
+			u.DownVotes,
 			u.UpVotes,
-			u.Views,
 			soma_votos = u.UpVotes + u.DownVotes
 	from	Badges b
 	join	Users u
@@ -28,5 +28,12 @@ return
 select	upper(left(name, 1)) + lower(SUBSTRING(name, 2, len(name))) name,
 		count(*) qtd
 from	Badges
+--where	right(name, 1) = '8'
 group	by name
 order	by name
+
+select	displayName,
+		UpVotes
+from	Users
+where	YEAR(CreationDate) = 2008
+and		UpVotes = (select max(UpVotes) from users)

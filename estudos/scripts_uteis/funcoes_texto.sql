@@ -28,12 +28,20 @@ select	name,
 		right(Name, 8)
 from	Production.Product
 
+use StackOverflow2010
+select	upper(left(name, 1)) + lower(SUBSTRING(name, 2, len(name))) name,
+		count(*) qtd
+from	Badges
+where	right(name, 1) = '8'
+group	by name
+order	by name
+
 -- LOWER - Converte todos os caracteres para minúsculo
 select	lower(JobTitle) letras_minusculas,	-- minusculo
 		JobTitle							-- normal
-from	HumanResources.Employee
+from	AdventureWorks2022.HumanResources.Employee
 
 -- UPPER - Converte todos os caracteres para maiúsculo
 select	UPPER(JobTitle) letras_maiusculas,	-- maiúsculo
 		JobTitle							-- normal
-from	HumanResources.Employee
+from	AdventureWorks2022.HumanResources.Employee

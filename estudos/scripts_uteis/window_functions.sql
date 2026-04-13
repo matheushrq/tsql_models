@@ -67,3 +67,18 @@ select	distinct top 5
 		sum(u.reputation) over (order by u.reputation) next_reputation -- soma acumulada da reputação ordenada por reputação
 from	Users u
 where	u.Reputation >= 1000
+
+-- percent_rank() -- retorna a posição percentual de um valor em um conjunto de valores
+
+use AdventureWorks2022
+
+SELECT	Department,
+		LastName,
+		Rate,
+		CUME_DIST() OVER (PARTITION BY Department ORDER BY Rate) AS CumeDist,
+		PERCENT_RANK() OVER (PARTITION BY Department ORDER BY Rate) AS PctRank
+FROM	HumanResources.vEmployeeDepartmentHistory AS edh
+INNER	JOIN HumanResources.EmployeePayHistory AS e
+ON		e.BusinessEntityID = edh.BusinessEntityID
+WHERE	Department IN (N'Information Services', N'Document Control')
+ORDER	BY Department, Rate DESC;
