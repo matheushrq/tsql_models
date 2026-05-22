@@ -253,3 +253,54 @@ declare c_cursor_teste cursor local for
 
 open	c_cursor_teste
 fetch	next from c_cursor_teste into @iidcliente, @cnome, @mcredito
+
+-----------------------------------------------------------------------------
+if object_id('tempdb..#tmp_teste') is not null
+begin
+	drop table #tmp_teste
+end
+
+select	top 100
+		cli.iIDCliente,
+		cli.cNome,
+		cli.cDocumento,
+		cli.dAniversario,
+		cli.dcadastro cadastro_cliente,
+		isnull(cli.dExclusao, getdate()) d_exclusao_cliente,
+		cli.mCredito,
+		en.iIDEndereco,
+		en.iIDLocalidade,
+		en.cLogradouro,
+		en.nNumero,
+		en.cComplemento,
+		en.cBairro,
+		en.cCEP,
+		en.dCadastro cadastro_endereco,
+		dateadd(year, 1, cli.dExclusao) d_exclusao_endereco
+		into #tmp_teste
+from	tCADCliente cli
+join	tCADEndereco en
+on		en.iIDCliente = cli.iIDCliente
+where	right(cDocumento, 1) = 3
+and		iIDTipoEndereco = 1
+
+select	distinct
+		ROW_NUMBER() over(order by iIDCliente) as id_seq,
+		iIDCliente,
+		cNome,
+		cDocumento,
+		convert(varchar(11), dAniversario, 103) dAniversario,
+		convert(varchar(11), cadastro_cliente, 103) cadastro_cliente,
+		convert(varchar(11), d_exclusao_cliente, 103) d_exclusao_cliente,
+		mCredito,
+		iIDEndereco,
+		iIDLocalidade,
+		cLogradouro,
+		nNumero,
+		cComplemento,
+		cBairro,
+		cCEP,
+		convert(varchar(11), cadastro_endereco, 103) cadastro_endereco,
+		convert(varchar(11), isnull(d_exclusao_endereco, dateadd(year, 1, getdate())), 103) d_exclusao_endereco
+from	#tmp_teste
+--where	dAniversario like '%2000%'

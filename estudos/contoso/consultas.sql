@@ -96,8 +96,37 @@ with adventure_works as (
 	join	DimProduct dp
 	on		dp.ProductKey = fi.ProductKey
 	where	dp.BrandName = 'Adventure Works'
+),
+
+contoso as (
+	select	distinct
+			dp.ProductName product_name,
+			fi.UnitCost cost,
+			isnull(dp.[Size], 'N/A') medidas,
+			dp.BrandName brand_name
+	from	FactInventory fi
+	join	DimProduct dp
+	on		dp.ProductKey = fi.ProductKey
+	where	dp.BrandName = 'Contoso'
 )
 
+select	product_name,
+		cost,
+		case
+			when cost >= 300
+				then 'Acima do custo'
+			when cost < 300 and cost >= 100
+				then 'Dentro do custo'
+			when cost < 100
+				then 'Abaixo do custo'
+			else null
+		end custo,
+		medidas,
+		brand_name
+from	contoso
+where	medidas not in ('N/A')
+
+/*
 select	product_name,
 		cost,
 		case
@@ -114,7 +143,7 @@ select	product_name,
 from	adventure_works
 where	medidas not in ('N/A')
 
-/*
+
 select	*
 from	#tmp_resultados
 
@@ -124,3 +153,8 @@ where	ClassName = 'Deluxe'
 */
 
 -- sp_helptext 'dbo.p_factsalesquota'
+
+select	top 10 *
+from	factSales fs
+join	DimProduct dp
+on		dp.ProductKey = fs.ProductKey
