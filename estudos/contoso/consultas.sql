@@ -44,7 +44,7 @@ order	by soma_SalesAMount desc
 
 /* ------------------------------------------------------------------------------------ */
 
-select	top 100
+select	top 500
 		dp.ProductName,
 		dp.ClassName,
 		dp.[Size],

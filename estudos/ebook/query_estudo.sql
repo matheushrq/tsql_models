@@ -260,11 +260,19 @@ begin
 	drop table #tmp_teste
 end
 
-select	top 100
+select	top 1000
 		cli.iIDCliente,
 		cli.cNome,
 		cli.cDocumento,
 		cli.dAniversario,
+		convert(varchar(20), datediff(year, dAniversario, getdate())) + ' anos' idade,
+		case
+			when datediff(year, dAniversario, getdate()) >= 60
+				then 'Idoso'
+			when datediff(year, dAniversario, getdate()) between 35 and 59
+				then 'Adulto'
+			else 'Jovem'
+		end faixa_etaria,
 		cli.dcadastro cadastro_cliente,
 		isnull(cli.dExclusao, getdate()) d_exclusao_cliente,
 		cli.mCredito,
@@ -281,8 +289,9 @@ select	top 100
 from	tCADCliente cli
 join	tCADEndereco en
 on		en.iIDCliente = cli.iIDCliente
-where	right(cDocumento, 1) = 3
-and		iIDTipoEndereco = 1
+where	--right(cDocumento, 1) = 3
+		en.iIDTipoEndereco = 1
+and		cli.mCredito > 75
 
 select	distinct
 		ROW_NUMBER() over(order by iIDCliente) as id_seq,
@@ -290,6 +299,8 @@ select	distinct
 		cNome,
 		cDocumento,
 		convert(varchar(11), dAniversario, 103) dAniversario,
+		idade,
+		faixa_etaria,
 		convert(varchar(11), cadastro_cliente, 103) cadastro_cliente,
 		convert(varchar(11), d_exclusao_cliente, 103) d_exclusao_cliente,
 		mCredito,
@@ -303,4 +314,11 @@ select	distinct
 		convert(varchar(11), cadastro_endereco, 103) cadastro_endereco,
 		convert(varchar(11), isnull(d_exclusao_endereco, dateadd(year, 1, getdate())), 103) d_exclusao_endereco
 from	#tmp_teste
---where	dAniversario like '%2000%'
+where	left(cNome, 1) = 'A'
+order	by cNome
+
+select	faixa_etaria,
+		count(*) qtd
+from	#tmp_teste
+group	by faixa_etaria
+order	by qtd desc
