@@ -1,4 +1,4 @@
-use	AdventureWorksDW2022
+use	AdventureWorksDW2025
 go
 
 select	top 100 FirstName, LastName, Gender from DimCustomer
