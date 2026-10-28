@@ -1,4 +1,4 @@
-use AdventureWorks2022
+use AdventureWorks2025
 go
 
 /* -- FUNÇÕES DE TEXTO -- */

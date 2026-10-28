@@ -533,4 +533,41 @@ begin
 	(28, 9850, 1220, 'EPI', 'Assets', '+', null, 'Current', null)
 end
 
-select * from DimAccount where AccountDescription = 'EPI'
+select	* from DimAccount where AccountDescription = 'EPI'
+
+select	distinct top 100
+		* 
+from	factInternetSales
+order	by UnitPrice desc
+
+select	top 100
+		fsq.salesquotakey,
+		convert(varchar(11), convert(date, convert(varchar(11), fsq.datekey)), 103) datekey,
+		fsq.salesamountquota,
+		de.employeekey,
+		salesterritorykey,
+		de.firstname,
+		de.lastname,
+		isnull(de.middlename, 'A. ') middleName,
+		case 
+			when len(de.middlename) = 1
+				then isnull((firstName + ' ' + middlename + '. ' + lastname), 'S/N')
+			else isnull((firstName + ' ' + middlename + ' ' + lastname), 'S/N')
+		end completeName,
+		convert(varchar(11), de.birthDate, 103) birthDate,
+		DATEDIFF(year, de.birthDate, GETDATE()) age,
+		de.emailaddress,
+		case
+			when de.maritalStatus = 'S'
+				then 'Single'
+			else 'Married'
+		end as maritalStatus,
+		case
+			when de.gender = 'F'
+				then 'Female'
+			else 'Male'
+		end as gender
+from	factSalesQuota fsq
+join	dimEmployee de
+on		de.employeekey = fsq.employeekey
+where	de.title <> 'North American Sales Manager'
